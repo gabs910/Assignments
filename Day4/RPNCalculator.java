@@ -53,7 +53,7 @@ public class RPNCalculator {
 				break;
 			}
 			System.out.print(pop2); System.out.print(pop1); System.out.println(operand);
-			System.out.println("Do you want to continue? Y or N: ");
+			System.out.println("Do you want to continue with more operations? Y or N: ");
 			String stop = z.next();
 			if (stop.equalsIgnoreCase("N")) {
 				quit = true;
