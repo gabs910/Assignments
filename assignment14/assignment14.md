@@ -1,11 +1,12 @@
---create table called major
+-- create table called major
 create table major (
 id int primary key auto_increment,
 major varchar(50),
 SAT_score int check (SAT_score between 400 and 1600)
 );
 
---populating table class with data
+
+-- populating table class with data
 insert major(major, SAT_score) values('General Business',800);
 insert major(major, SAT_score) values('Accounting',1000);
 insert major(major, SAT_score) values('Finance',1100);
@@ -15,7 +16,7 @@ insert major(major, SAT_score) values('Education',900);
 insert major(major, SAT_score) values('General Studies',500);
 
 
---create table instructor
+-- create table instructor
 create table instructor(
 id int primary key auto_increment,
 first_name varchar(30) not null,
@@ -26,7 +27,8 @@ maj_id int,
 foreign key(maj_id) references major(id)
 );
 
---populate table instructor
+
+-- populate table instructor
 insert instructor(first_name,last_name,maj_id,yrs_of_exp,tenured)
 values('Instructor','One',1,10,1);
 insert instructor(first_name,last_name,maj_id,yrs_of_exp,tenured)
@@ -43,7 +45,7 @@ insert instructor(first_name,last_name,maj_id,yrs_of_exp,tenured)
 values('Instructor','Seven', 7,3,0);
 
 
---create table class
+-- create class table
 create table class(
 id int primary key auto_increment,
 class_name varchar(50),
@@ -52,7 +54,8 @@ teach_id int,
 foreign key(teach_id) references instructor(id)
 );
 
---populate class with data
+
+-- populate class table
 insert class(class_name, class_no) values('English', 101);
 insert class(class_name, class_no) values('English', 102);
 insert class(class_name, class_no) values('English', 103);
@@ -95,14 +98,17 @@ insert class(class_name, class_no) values('Education', 352);
 insert class(class_name, class_no) values('Education', 353);
 
 
+-- create table major_class_relationship
 create table major_class_relationship(
-id int primary key,
+id int primary key auto_increment,
 major_id int not null,
 class_id int not null,
 foreign key(major_id) references major(id),
 foreign key(class_id) references class(id)
 );
 
+
+--populate table major_class_relationship
 insert major_class_relationship(major_id,class_id) values(4,4);
 insert major_class_relationship(major_id,class_id) values(1,20);
 insert major_class_relationship(major_id,class_id) values(7,26);
@@ -131,11 +137,9 @@ insert major_class_relationship(major_id,class_id) values(1,3);
 
 
 
-
-
-
+-- create table student_class_relationship
 create table student_class_relationship(
-id int primary key,
+id int primary key auto_increment,
 student_id int not null,
 class_id int not null,
 foreign key(student_id) references student(id),
@@ -143,6 +147,7 @@ foreign key(class_id) references class(id)
 );
 
 
+-- populate student_class_relationship table
 insert student_class_relationship(student_id,class_id) values(100,25);
 insert student_class_relationship(student_id,class_id) values(100,20);
 insert student_class_relationship(student_id,class_id) values(100,12);
@@ -191,19 +196,108 @@ add class_id int,
 add foreign key(class_id) references class(id);
 
 
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(1,110,1,20,2);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(2,110,2,20,1);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(3,110,3,10,2);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(4,150,1,22,0);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(5,140,1,30,3);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(6,130,12,5,0);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(7,180,14,6,3);
-insert assignment(id,student_id,assignment_nbr,class_id,grade_id)
-values(8,120,1,20,1);
+--  populate assignment table
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(110,1,20,2);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(110,2,20,1);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(110,3,10,2);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(150,1,22,0);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(140,1,30,3);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(130,12,5,0);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(180,14,6,3);
+insert assignment(student_id,assignment_nbr,class_id,grade_id)
+values(120,1,20,1);
+
+
+-- updated null fields in student table
+update student set gpa=3.8, sat=1125, major_id=1 where id=110;
+update student set gpa=2.2, sat=700, major_id=6 where id=120;
+update student set gpa=4.0, sat=1050, major_id=5 where id=130;
+update student set gpa=2.0, sat=1400, major_id=2 where id=140;
+update student set gpa=2.6, sat=967, major_id=1 where id=150;
+update student set gpa=3.0, sat=1279, major_id=3 where id=160;
+update student set gpa=3.8, sat=1050, major_id=4 where id=170;
+update student set gpa=1.2, sat=1600, major_id=2 where id=180;
+update student set gpa=2.5, sat=600, major_id=3 where id=190;
+
+
+-- update null fields in class table
+update class set teach_id=1 where id=2;
+update class set teach_id=4 where id=3;
+update class set teach_id=2 where id=4;
+update class set teach_id=6 where id=5;
+update class set teach_id=5 where id=6;
+update class set teach_id=4 where id=7;
+update class set teach_id=1 where id=8;
+update class set teach_id=1 where id=9;
+update class set teach_id=6 where id=10;
+update class set teach_id=4 where id=11;
+update class set teach_id=3 where id=12;
+update class set teach_id=2 where id=13;
+update class set teach_id=3 where id=14;
+update class set teach_id=4 where id=15;
+update class set teach_id=5 where id=16;
+update class set teach_id=6 where id=17;
+update class set teach_id=1 where id=18;
+update class set teach_id=3 where id=19;
+update class set teach_id=4 where id=20;
+update class set teach_id=5 where id=21;
+update class set teach_id=2 where id=22;
+update class set teach_id=3 where id=23;
+update class set teach_id=2 where id=24;
+update class set teach_id=5 where id=25;
+update class set teach_id=3 where id=26;
+update class set teach_id=2 where id=27;
+update class set teach_id=6 where id=28;
+update class set teach_id=3 where id=29;
+update class set teach_id=4 where id=30;
+update class set teach_id=1 where id=31;
+update class set teach_id=3 where id=32;
+update class set teach_id=2 where id=33;
+update class set teach_id=3 where id=34;
+update class set teach_id=1 where id=35;
+
+
+-- add prerequisiste to class table using foreign key referencing class(id)
+alter table class
+add column prerequisite int,
+add constraint fk_prerequisite
+foreign key(prerequisite) references class(id);
+
+
+-- populate prerequisiste field in class table
+update class set prerequisite=1 where id=2;
+update class set prerequisite=2 where id=3;
+update class set prerequisite=3 where id=4;
+update class set prerequisite=4 where id=5;
+update class set prerequisite=5 where id=6;
+update class set prerequisite=6 where id=7;
+update class set prerequisite=7 where id=8;
+update class set prerequisite=8 where id=9;
+update class set prerequisite=10 where id=11;
+update class set prerequisite=11 where id=12;
+update class set prerequisite=12 where id=13;
+update class set prerequisite=13 where id=14;
+update class set prerequisite=14 where id=15;
+update class set prerequisite=15 where id=16;
+update class set prerequisite=17 where id=18;
+update class set prerequisite=18 where id=19;
+update class set prerequisite=20 where id=21;
+update class set prerequisite=21 where id=22;
+update class set prerequisite=22 where id=23;
+update class set prerequisite=23 where id=24;
+update class set prerequisite=24 where id=25;
+update class set prerequisite=26 where id=27;
+update class set prerequisite=27 where id=28;
+update class set prerequisite=28 where id=29;
+update class set prerequisite=30 where id=31;
+update class set prerequisite=31 where id=32;
+update class set prerequisite=32 where id=33;
+update class set prerequisite=33 where id=34;
+update class set prerequisite=34 where id=35;
