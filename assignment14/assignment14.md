@@ -1,3 +1,9 @@
+set foreign_key_checks=0;
+
+
+
+drop table if exists major;
+
 -- create table called major
 create table major (
 id int primary key auto_increment,
@@ -6,16 +12,7 @@ SAT_score int check (SAT_score between 400 and 1600)
 );
 
 
--- populating table class with data
-insert major(major, SAT_score) values('General Business',800);
-insert major(major, SAT_score) values('Accounting',1000);
-insert major(major, SAT_score) values('Finance',1100);
-insert major(major, SAT_score) values('Math',1300);
-insert major(major, SAT_score) values('Engineering',1350);
-insert major(major, SAT_score) values('Education',900);
-insert major(major, SAT_score) values('General Studies',500);
-
-
+drop table if exists instructor;
 -- create table instructor
 create table instructor(
 id int primary key auto_increment,
@@ -26,6 +23,64 @@ tenured tinyint(1),
 maj_id int,
 foreign key(maj_id) references major(id)
 );
+
+
+drop table if exists class;
+-- create class table
+create table class(
+id int primary key auto_increment,
+class_name varchar(50),
+class_no int,
+teach_id int,
+foreign key(teach_id) references instructor(id)
+);
+
+
+drop table if exists student_class_relationship;
+-- create table student_class_relationship
+create table student_class_relationship(
+id int primary key auto_increment,
+student_id int not null,
+class_id int not null,
+foreign key(student_id) references student(id),
+foreign key(class_id) references class(id)
+);
+
+
+drop table if exists major_class_relationship;
+-- create table major_class_relationship
+create table major_class_relationship(
+id int primary key auto_increment,
+major_id int not null,
+class_id int not null,
+foreign key(major_id) references major(id),
+foreign key(class_id) references class(id)
+);
+
+
+drop table if exists student;
+-- create student table
+create table student (
+	id int primary key,
+	first_name varchar(30) not null,
+	last_name varchar(30) not null,
+	years_of_experience int not null,
+	start_date date not null
+);
+
+
+
+-- populate tabel student
+insert student values(100,'Eric','Ephram',2,'2016-03-31');
+insert student values(110,'Greg','Gould',6,'2016-09-30');
+insert student values(120,'Adam','Ant',5,'2016-06-02');
+insert student values(130,'Howard','Hess',1,'2016-02-28');
+insert student values(140,'Charles','Caldwell',7,'2016-05-07');
+insert student values(150,'James','Joyce',9,'2016-08-27');
+insert student values(160,'Doug','Dumas',13,'2016-07-04');
+insert student values(170,'Kevin','Kraft',3,'2016-04-15');
+insert student values(180,'Frank','Fountain',8,'2016-01-31');
+insert student values(190,'Brian','Biggs',4,'2015-12-25');
 
 
 -- populate table instructor
@@ -44,15 +99,15 @@ values('Instructor','Six',6,4,0);
 insert instructor(first_name,last_name,maj_id,yrs_of_exp,tenured)
 values('Instructor','Seven', 7,3,0);
 
+-- populating table class with data
+insert major(major, SAT_score) values('General Business',800);
+insert major(major, SAT_score) values('Accounting',1000);
+insert major(major, SAT_score) values('Finance',1100);
+insert major(major, SAT_score) values('Math',1300);
+insert major(major, SAT_score) values('Engineering',1350);
+insert major(major, SAT_score) values('Education',900);
+insert major(major, SAT_score) values('General Studies',500);
 
--- create class table
-create table class(
-id int primary key auto_increment,
-class_name varchar(50),
-class_no int,
-teach_id int,
-foreign key(teach_id) references instructor(id)
-);
 
 
 -- populate class table
@@ -98,17 +153,10 @@ insert class(class_name, class_no) values('Education', 352);
 insert class(class_name, class_no) values('Education', 353);
 
 
--- create table major_class_relationship
-create table major_class_relationship(
-id int primary key auto_increment,
-major_id int not null,
-class_id int not null,
-foreign key(major_id) references major(id),
-foreign key(class_id) references class(id)
-);
 
 
---populate table major_class_relationship
+
+-- populate table major_class_relationship
 insert major_class_relationship(major_id,class_id) values(4,4);
 insert major_class_relationship(major_id,class_id) values(1,20);
 insert major_class_relationship(major_id,class_id) values(7,26);
@@ -137,14 +185,7 @@ insert major_class_relationship(major_id,class_id) values(1,3);
 
 
 
--- create table student_class_relationship
-create table student_class_relationship(
-id int primary key auto_increment,
-student_id int not null,
-class_id int not null,
-foreign key(student_id) references student(id),
-foreign key(class_id) references class(id)
-);
+
 
 
 -- populate student_class_relationship table
@@ -188,15 +229,12 @@ alter table student
 add major_id int,
 add foreign key(major_id) references major(id);
 
-alter table student
-drop column years_of_experience;
-
 alter table assignment
 add class_id int,
 add foreign key(class_id) references class(id);
 
 
---  populate assignment table
+/*--  populate assignment table
 insert assignment(student_id,assignment_nbr,class_id,grade_id)
 values(110,1,20,2);
 insert assignment(student_id,assignment_nbr,class_id,grade_id)
@@ -212,7 +250,7 @@ values(130,12,5,0);
 insert assignment(student_id,assignment_nbr,class_id,grade_id)
 values(180,14,6,3);
 insert assignment(student_id,assignment_nbr,class_id,grade_id)
-values(120,1,20,1);
+values(120,1,20,1);*/
 
 
 -- updated null fields in student table
@@ -301,3 +339,24 @@ update class set prerequisite=31 where id=32;
 update class set prerequisite=32 where id=33;
 update class set prerequisite=33 where id=34;
 update class set prerequisite=34 where id=35;
+
+
+set foreign_key_checks=1;
+
+
+
+
+
+/* select student.major_id,concat(student.first_name,' ',student.last_name)
+ from student
+ join major_class_relationship
+ on student.major_id=major_class_relationship.major_id;
+
+-- select major
+-- to select what courses a student has taken
+select concat(student.first_name,' ',student.last_name) as 'Student Name',
+ concat(class.class_name,' ',class.class_no) as 'Classes taken',
+ from student,class,student_class_relationship where student.id = student_class_relationship.student_id
+and student_class_relationship.class_id=class.id and 
+student.id=160;*/
+
