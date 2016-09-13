@@ -1,0 +1,31 @@
+.orangetext {
+	color:orange;
+}	
+.italictext{
+	<font size = "6">
+	font-style:italic;
+
+}
+
+
+span{
+		color:red;
+		font-weight:bold;
+}
+table {
+	border-collapse: collapse;
+}
+table,td{
+	border:1px solid grey;
+}
+
+div{
+	width:49%;
+	display: inline-block;
+	text-align:center;
+	vertical-align: text-top;
+}
+/*This is for ID*/
+#rightdiv {
+	color:black;
+}
