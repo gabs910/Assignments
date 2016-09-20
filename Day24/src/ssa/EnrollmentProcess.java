@@ -6,29 +6,42 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
+
+
+
 
 public class EnrollmentProcess {
 
 	public static Connection myConn = null;
 	public static PreparedStatement myStmt = null;
 	public static ResultSet myRs = null;
+	public static ResultSet myRs2=null;
 	public static int studentSat;
 	public static int minimumSat;
+	public static String majdescr;
+	public static int majid;
+	public static int classid1;
+	public static int classid2;
+	public static int classid3;
+	public static int classid4;
+	public static int counter=0;
+
 	public static void main(String[] args) throws SQLException {
 		//fetchData();
 
 		System.out.println("");
+		
 		//enrollStudent(200, "Adam", "Zapel", 1200, 3.0, 3);
 		//enrollStudent(230, "Graham", "Krakir", 500, 2.5, 7);
 		//enrollStudent(240, "Ella", "Vader", 800, 3.0, 2);
 		//enrollStudent(250, "Stanley", "Kupp", 1350, 3.3, 5);
 		//enrollStudent(260, "Lou", "Zar", 9500, 3.0, 6);
+		enrollClass(100,10101,10102,40311,20201);
+
 		fetchData();
-		System.out.println("");
-		updateMajor(2,110);
-		fetchData();
+		
+		//updateMajor(2,110);
+	//fetchData();
 
 	}
 
@@ -58,6 +71,8 @@ public class EnrollmentProcess {
 	}
 
 	public static void display() throws SQLException {
+		
+
 		while (myRs.next()) {
 
 			String fName = myRs.getString("first_name");
@@ -65,8 +80,31 @@ public class EnrollmentProcess {
 			double gpa = myRs.getDouble("gpa");
 			int sat = myRs.getInt("sat");
 			int maj = myRs.getInt("major_id");
+	
+		
+			String fullName = fName + " " + lName;
+		
+			myStmt=myConn.prepareStatement("select * from major where id =?");
+			myStmt.setInt(1, maj);
+			myRs2=myStmt.executeQuery();
+			
+			while(myRs2.next()) {
+				majdescr=myRs2.getString("description");
+			}
+			
+			System.out.println("Education System - Enrollment Process");
+			System.out.println("=====================================");
+			System.out.println("");
+			System.out.println("Enrolled "+fullName+" as a new student. ");
+			System.out.println(fullName+" has an SAT score of "+sat);
+			System.out.println("Assigned "+fullName+" to the "+ majdescr +" which requires a SAT score of ");
+			System.out.println("Enrolled "+fullName+" in the following classes:");
+			System.out.println("");
+			System.out.println();
+			System.out.println("");
 
-			System.out.printf("%s %s %.2f %d %d\n", fName, lName, gpa, sat, maj);
+
+		//	System.out.printf("%s %s %.2f %d %d\n", fName, lName, gpa, sat, maj);
 		}
 	}
 
@@ -78,18 +116,21 @@ public class EnrollmentProcess {
 			// Set parameter Values
 			myStmt.setDouble(1, 1.0);
 			myStmt.setInt(2, 100);
-
+			
 			// Execute the query
 			myRs = myStmt.executeQuery();
-
+			
 			// process result
+			
+			
+			
 			display();
 
-			// Set parameter Values
-			myStmt.setDouble(1, 3.0);
-			myStmt.setInt(2, 900);
-			myRs = myStmt.executeQuery();
-			display();
+//			// Set parameter Values
+//			myStmt.setDouble(1, 3.0);
+//			myStmt.setInt(2, 900);
+//			myRs = myStmt.executeQuery();
+//			display();
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -151,24 +192,90 @@ public class EnrollmentProcess {
 				close();
 			}
 	}
+
+		
 	
-	private static void enrollClass(int student_id, int class_id) throws SQLException{
+	private static void enrollClass(int student_id, int classid1, int classid2,int classid3,int classid4) throws SQLException{
 		
 		try{
 			
 			makeConnection();
-			myStmt=(PreparedStatement) myConn.prepareStatement("insert student_class_relationship(class_id,student_id=");
+			myStmt=myConn.prepareStatement("set foreign_key_checks=0");
+			myRs=myStmt.executeQuery();
+
 			
+			myStmt=(PreparedStatement) myConn.prepareStatement("select major_id from student where id = ?");
 			myStmt.setInt(1,student_id);
-			myStmt.setInt(2,class_id);
+			myRs=myStmt.executeQuery();
+			while(myRs.next()){
+			majid=myRs.getInt("major_id");
+		//	System.out.println(majid);}
+			}
 			
-			myStmt.executeUpdate();
+			myStmt=myConn.prepareStatement("select * from major_class_relationship where class_id = ? ");
+			myStmt.setInt(1,classid1);
+			myRs=myStmt.executeQuery();
+			while(myRs.next()){
+				classid1=myRs.getInt("class_id");
+			//	System.out.println(classid1 + " " + majid);
+			if (myRs.getInt("major_id") == majid){
+		
+				counter++;
+				}}
+			
+			
+			myStmt=myConn.prepareStatement("select * from major_class_relationship where class_id = ? ");
+			myStmt.setInt(1,classid2);
+			myRs=myStmt.executeQuery();
+			while(myRs.next()){
+			classid2=myRs.getInt("class_id");
+			
+			if ((myRs.getInt("major_id") == majid)){
+				counter++;
+				}}
+			
+			myStmt=myConn.prepareStatement("select * from major_class_relationship where class_id = ? ");
+			myStmt.setInt(1,classid3);
+			myRs=myStmt.executeQuery();
+			while(myRs.next()){
+			classid3=myRs.getInt("class_id");
+			if (myRs.getInt("major_id") == majid){
+				counter++;
+				}}
+			
+			myStmt=myConn.prepareStatement("select * from major_class_relationship where class_id = ? ");
+			myStmt.setInt(1,classid4);
+			myRs=myStmt.executeQuery();
+			while(myRs.next()){
+			classid4=myRs.getInt("class_id");
+			if (myRs.getInt("major_id") == majid){
+				counter++;
+				}}
+		//	System.out.println(counter);
+			if (counter>=2){
+				myStmt=myConn.prepareStatement("insert into student_class_relationship (student_id,class_id) values(?,?)");
+				myStmt.setInt(1,student_id);
+				myStmt.setInt(2, classid1);
+				myStmt.executeUpdate();
+				myStmt.setInt(1,student_id);
+				myStmt.setInt(2, classid2);
+				myStmt.executeUpdate();
+				myStmt.setInt(1,student_id);
+				myStmt.setInt(2, classid3);
+				myStmt.executeUpdate();
+				myStmt.setInt(1,student_id); 
+				myStmt.setInt(2, classid4);
+				myStmt.executeUpdate();
+			} else { System.out.println("Must enroll in at least 2 classes in your major!");
+			
+		//	myStmt.executeQuery();
 					
-		} catch(Exception ex) {
+		}} catch(Exception ex) {
 			ex.printStackTrace();
 		} finally { 
 			close();
 		}
+
 }
 }
 
