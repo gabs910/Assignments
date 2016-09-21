@@ -1,0 +1,40 @@
+
+.center{
+	text-align:center;
+	vertical-align: text-top;
+}
+
+.button1 {
+	background-color: red;
+	color: black;
+	border: white;
+}
+
+.changeRed {
+	color:red;
+}
+
+
+#minus{
+	  width: 7em;
+	  color:white;
+  background-color: red;
+  font-size: 130%;
+  font-weight: bold;
+}
+#plus{
+	  width: 7em;
+	  color:white;
+  background-color: green;
+  font-size: 130%;
+  font-weight: bold;
+}
+
+#reset{
+	  width: 7em;
+	    color:white;
+  background-color: blue;
+  font-size: 130%;
+  font-weight: bold;
+
+}
