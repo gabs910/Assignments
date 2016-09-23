@@ -1,0 +1,42 @@
+.center{
+	text-align:center;
+		color: powderblue;
+background-color: #1a1a1a;
+text-shadow: rgba(255,255,255,.5) 0 0 15px, rgba(255,255,255,.5) 0 0 10px;
+}
+
+body{
+	 background-color:grey;
+	}
+
+#wrapper {
+  margin:auto;
+  width:900px;
+  height:auto;
+  overflow:auto;
+  text-align:left;
+}
+.noShow{
+	display:none;
+}
+#menu {
+  float:left;
+  width:49%;
+}
+
+#content {
+  float:right;
+  width:49%;
+}
+
+#textbox {
+   height:320px;
+   width:430px;
+   background-image:url(https://s-media-cache-ak0.pinimg.com/564x/fc/fe/e8/fcfee846b6ea0fa95eca868fc0d88cd3.jpg);
+   color:white;
+   font-size:20px;
+}
+
+#public{
+	color:#
+}
