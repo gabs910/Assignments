@@ -14,7 +14,7 @@ public class createMajor {
 	public static void main(String[] args) {
 		newMajor();
 		updateMajor();
-//  deleteMajor();
+		deleteMajor();
 		display();
 	}
 
