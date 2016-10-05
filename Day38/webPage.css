@@ -1,0 +1,45 @@
+body {
+	font: normal normal normal 12px/14.4px; 
+	border:0; margin:0; padding:0;
+}
+div#allpage {
+	margin: 10px;
+	border: 1px solid silver;
+	background-color: lightyellow;
+}
+div#header {
+	border: 1px solid silver;
+	background-color: blue;
+}
+div#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+div#menu li {
+    float: right;	
+}
+div#menu li a {
+    display: block;
+    color: Green;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+div#menu li a:hover {
+    background-color: #111111;
+}
+
+div#content {
+	width:74%;
+	display:inline-block;
+	color:blue;
+}
+#welcome{
+	color:red;
+	font-style:italic;
+	font-size:24px;
+}
