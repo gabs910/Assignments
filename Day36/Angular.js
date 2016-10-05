@@ -1,24 +1,36 @@
 angular.module("AppMod", [])
-	.controller("AppCtrl", [function() {
-		var self = this;
-		
+    .controller("AppCtrl", ["$http", function($http) {
+        var self = this;
+        
+      
 		 
 			self.studentHide=function(student){
 				student.vis=false;
 			};
-			self.students = [
-			{id:100,firstname:"Eric",lastname:"Ephram",gpa:3.0,sat:1200,majorid:1,vis:true},
-			{id:110,firstname:"Greg",lastname:"Gould",gpa:2.5,sat:1100,majorid:null,vis:true},
-			{id:120,firstname:"Adam",lastname:"Ant",gpa:3.2,sat:1300,majorid:null,vis:true},
-			{id:130,firstname:"Howard",lastname:"Hess",gpa:3.7,sat:1600,majorid:4,vis:true},
-			{id:140,firstname:"Charles",lastname:"Caldwell",gpa:2.1,sat:900,majorid:null,vis:true},
-			{id:150,firstname:"James",lastname:"Joyce",gpa:2.5,sat:1100,majorid:null,vis:true},
-			{id:160,firstname:"Doug",lastname:"Dumas",gpa:3.1,sat:1350,majorid:2,vis:true},
-			{id:170,firstname:"Kevin",lastname:"Kraft",gpa:2.7,sat:1000,majorid:null,vis:true},
-			{id:180,firstname:"Frank",lastname:"Fountain",gpa:2.5,sat:1000,majorid:null,vis:true},
-			{id:190,firstname:"Brian",lastname:"Biggs",gpa:2.3,sat:950,majorid:null,vis:true}
-			];	
 			
-		
+ $http.get("http://localhost:8080/student/120")
+			.then(function(resp) {
+				self.students = resp.data;
+				console.log(self.students.first_name);
+				var firstNameString = "<tr><td>First Name:</td><td><input type='text' id='uname' name='uname' value='" + self.students.first_name + "'></td></tr>"
+				var lastNameString = "<tr><td>Last Name:</td><td><input type='text' id='uname' name='uname' value='" + self.students.last_name + "'></td></tr>"
+				var gpaNameString = "<tr><td>GPA:</td><td><input type='text' id='uname' name='uname' value='" + self.students.gpa + "'></td></tr>"
+				var satNameString = "<tr><td>SAT:</td><td><input type='text' id='uname' name='uname' value='" + self.students.sat + "'></td></tr>"
+
+				console.log(firstNameString);
+				$("#studentTable").append(firstNameString);
+				$("#studentTable").append(lastNameString);
+				$("#studentTable").append(gpaNameString);
+				$("#studentTable").append(satNameString);
+
+	//			for(var s of self.students){
+	//				s.vis = true;
+	//				}
+	//			}, function(err){
+				});
+			 
+		//					self.students = [
+		//	{id:100,firstname:"Eric",lastname:"Ephram",gpa:3.0,sat:1200,majorid:1,vis:true}
+//];
 			
 		}]);  // end controller
